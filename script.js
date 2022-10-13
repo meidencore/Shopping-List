@@ -1,89 +1,107 @@
-/* 
-variable declarations
-*/
+
+// variable declaration
 
 var button = document.getElementById("enter");
 var input = document.getElementById("userinput");
 var ul = document.querySelector("ul");
-var listElements = document.querySelectorAll("li");
-var listElementsChildren = [];
+var li = document.querySelectorAll("li");
+var removeButton;
 
-/*
- functions declarations
-*/
+// function declaration
 
 function inputLength() {
 	return input.value.length;
 }
 
-function listLastIndex() {
-	return listElements.length - 1;
+// Event listener add  to an array
+
+function addEventListenerToAnArray(array, start) {
+	array.forEach(function(items, i) {
+	if (i >= start) {
+	array[i].addEventListener("click", function() {textOrButton(event, i)});
+	}})
 }
-/*   Arrays Creators */
+
+// Array creator for buttons inside <li>
+
 function childrenArray(array) {
+	let childrens = [];
+	if (array.length > 0) {
 	array.forEach(function(item, i){
-	listElementsChildren[i] = listElements[i].children[0];
- 	})
+	childrens[i] = li[i].children[0];
+	return removeButton = childrens;
+ 		})
+	} else 
+	return removeButton = [];
 }
+// after event functions
+
+function addListAfterClick(event) {
+	if (inputLength() > 0) {
+		createListElement();
+	}
+}
+
+function addListAfterKeyPress(event) {
+		if (inputLength() > 0 && event.keyCode === 13) {
+		createListElement();
+	}
+}
+
+function textOrButton(event, i) {
+	if (event.target === removeButton[i]) {
+		deleteListElements(i);
+	} else if (event.target === li[i]) {
+		toggleItem(i);
+	}
+}
+
+function toggleItem(i) {
+	li[i].classList.toggle("done");
+}
+
+
+// list modifier functions
 
 function createListElement() {
 	var newli = document.createElement("li");
-	var newbutton = document.createElement("button")
+	var removeButton = document.createElement("button");
+	removeButton.appendChild(document.createTextNode("Remove"));
 	newli.appendChild(document.createTextNode(input.value + " "));
 	ul.appendChild(newli);
-	updateUl()
-	newbutton.appendChild(document.createTextNode("remove"));
-	listElements[listLastIndex()].appendChild(newbutton);
-	let lastIndex = listLastIndex()
-	listElements[lastIndex].children[0].addEventListener("click", function() {removeElement(lastIndex)})
+	ul.lastChild.appendChild(removeButton);
 	input.value = "";
+	updateListAfterAdd();
 }
 
-function addListAfterClick() {
-	if (inputLength() > 0) {
-	createListElement();
-	}
-}
-function addListAfterKeyPress(event) {
-	if (inputLength() > 0 && event.keyCode === 13) {
-	createListElement();
-	}
+function deleteListElements(i) {
+	li[i].remove(i);
+	updateListAfterRemove(i);
 }
 
-function addEventListenerArray(array) {
-	array.forEach(function(items, i) {
-		items.addEventListener("click", function() {toggleItem(i)})
-	}
-)	
+// updates functions
+
+function updateListAfterAdd() {
+	updateArrays();
+	let i = li.length - 1;
+	ul.lastChild.addEventListener("click", function(){textOrButton(event, i)})
+	
 }
 
-function addEventListenerArrayChildren(array) {
-	array.forEach(function(items, i) {
-		items.addEventListener("click", function() {removeElement(i)})
-	}
-)	
+function updateListAfterRemove(i) {
+	updateArrays();
+	addEventListenerToAnArray(li, i)
 }
 
-function toggleItem(index) {
-	listElements[index].classList.toggle("done");
+function updateArrays() {
+	li = document.querySelectorAll("li");
+	childrenArray(li);
 }
 
-function updateUl() {
-	listElements = document.querySelectorAll("li");
-	let lastIndex = listLastIndex();
-	childrenArray(listElements);
-	listElements[listLastIndex()].addEventListener("click", function() {toggleItem(lastIndex)})
-}
 
-function removeElement(i) {
- 	listElements[i].remove(i);
-}
-/* 
-Events listener
-*/
+//callings
 
 button.addEventListener("click", addListAfterClick);
 input.addEventListener("keypress", addListAfterKeyPress);
-addEventListenerArray(listElements);
-childrenArray(listElements);
-addEventListenerArrayChildren(listElementsChildren);
+addEventListenerToAnArray(li, 0);
+childrenArray(li);
