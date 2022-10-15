@@ -16,7 +16,7 @@ function inputLength() {
 // Event listener add  to an array
 
 function addEventListenerToAnArray(array, start) {
-	array.forEach(function(items, i) {
+	array.forEach(function(item, i) {
 	if (i >= start) {
 	array[i].addEventListener("click", function() {textOrButton(event, i)});
 	}})
@@ -60,13 +60,13 @@ function toggleItem(i) {
 	li[i].classList.toggle("done");
 }
 
-
 // list modifier functions
 
 function createListElement() {
 	var newli = document.createElement("li");
 	var removeButton = document.createElement("button");
-	removeButton.appendChild(document.createTextNode("Remove"));
+	removeButton.classList.add("btn");
+	removeButton.appendChild(document.createTextNode("❌"));
 	newli.appendChild(document.createTextNode(input.value + " "));
 	ul.appendChild(newli);
 	ul.lastChild.appendChild(removeButton);
@@ -84,8 +84,7 @@ function deleteListElements(i) {
 function updateListAfterAdd() {
 	updateArrays();
 	let i = li.length - 1;
-	ul.lastChild.addEventListener("click", function(){textOrButton(event, i)})
-	
+	addEventListenerToAnArray(li, i);
 }
 
 function updateListAfterRemove(i) {
