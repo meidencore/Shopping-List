@@ -2,7 +2,7 @@ html {
   width: 100%;
   height: 100%;
   font-family: 'Montserrat', 'sans-serif', 'Arial';
-  background-color:#6666ff; 
+  background: linear-gradient(to right, rgb(21, 183, 21), rgb(38, 38, 156)); 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
